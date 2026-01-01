@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Portfolio — Portrait</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <style>body{font-family:system-ui;padding:20px;padding-top:130px;padding-bottom:64px;max-width:1100px;margin:auto} h1{font-size:28px;margin-bottom:0.4rem} .gallery{display:flex;flex-wrap:wrap;gap:16px;margin-top:18px} .gallery a{display:block}.gallery img{width:420px;height:300px;object-fit:cover;border-radius:8px} .top-banner{position:fixed;left:0;right:0;top:0;height:110px;background:linear-gradient(90deg,#062047,#043059);z-index:1000;box-shadow:0 2px 6px rgba(0,0,0,0.25);display:flex;justify-content:center;align-items:center;padding:0 22px} .top-logo{height:72px;display:block;margin:0} .bottom-bar{position:fixed;left:0;right:0;bottom:0;height:48px;background:linear-gradient(90deg,#062047,#043059);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:600;z-index:1000;transform:translateY(100%);transition:transform 220ms ease-in-out} .bottom-bar.visible{transform:translateY(0)} .bottom-bar a{color:#fff;text-decoration:none;margin:0 8px}</style>
+</head>
+<body>
+<div class="top-banner"><img class="top-logo" src="logo_white.png?v=1767280404" alt="LR"></div>
+<h1>Portrait</h1>
+<p><a href="gallery.html">&larr; Retour</a></p>
+<div class="section-label">Portfolio</div>
+<div class="gallery"><a href="images/Portrait/DSC00937.jpg" target="_blank"><img src="images/Portrait/DSC00937.jpg" loading="lazy" alt=""></a><a href="images/Portrait/DSC01029.jpg" target="_blank"><img src="images/Portrait/DSC01029.jpg" loading="lazy" alt=""></a></div>
+<div class="bottom-bar"><span style="margin-right:8px">Mon Insta:</span><a href="https://instagram.com/leonard_rossel" target="_blank">@leonard_rossel</a><span style="margin:0 12px">·</span><span style="margin-right:8px">Mon mail:</span><a href="mailto:leonardrosselpro@gmail.com">leonardrosselpro@gmail.com</a></div>
+<script>
+(function(){var bar=document.querySelector('.bottom-bar');function check(){if(!bar) return; if((window.innerHeight+window.scrollY)>=document.documentElement.scrollHeight-2){bar.classList.add('visible');}else{bar.classList.remove('visible');}}window.addEventListener('scroll',check,{passive:true});window.addEventListener('resize',check);document.addEventListener('DOMContentLoaded',check);check();})();
+</script>
+<script>
+// profile video modal: open modal and play when play button clicked
+(function(){var play=document.querySelector('.play-button');var modal=document.getElementById('video-modal');var vid=modal?modal.querySelector('#profile-video'):null;var closeBtn=modal?modal.querySelector('.video-close'):null;function openVideo(){if(!modal||!vid) return;modal.classList.add('open');try{vid.currentTime=0;vid.play();}catch(e){}}function closeVideo(){if(!modal||!vid) return;try{vid.pause();}catch(e){}modal.classList.remove('open');}if(play){play.addEventListener('click',function(e){e.preventDefault();openVideo();});}if(closeBtn){closeBtn.addEventListener('click',function(e){e.preventDefault();closeVideo();});}if(modal){modal.addEventListener('click',function(e){if(e.target===modal){closeVideo();}});document.addEventListener('keydown',function(e){if(e.key==='Escape') closeVideo();});} })();
+</script>
+<script>
+// profile video modal: open modal and play when play button clicked
+(function(){var play=document.querySelector('.play-button');var modal=document.getElementById('video-modal');var vid=modal?modal.querySelector('#profile-video'):null;var closeBtn=modal?modal.querySelector('.video-close'):null;function openVideo(){if(!modal||!vid) return;modal.classList.add('open');try{vid.currentTime=0;vid.play();}catch(e){}}function closeVideo(){if(!modal||!vid) return;try{vid.pause();}catch(e){}modal.classList.remove('open');}if(play){play.addEventListener('click',function(e){e.preventDefault();openVideo();});}if(closeBtn){closeBtn.addEventListener('click',function(e){e.preventDefault();closeVideo();});}if(modal){modal.addEventListener('click',function(e){if(e.target===modal){closeVideo();}});document.addEventListener('keydown',function(e){if(e.key==='Escape') closeVideo();});} })();
+</script>
+<script>
+// profile video modal: open modal and play when play button clicked
+(function(){var play=document.querySelector('.play-button');var modal=document.getElementById('video-modal');var vid=modal?modal.querySelector('#profile-video'):null;var closeBtn=modal?modal.querySelector('.video-close'):null;function openVideo(){if(!modal||!vid) return;modal.classList.add('open');try{vid.currentTime=0;vid.play();}catch(e){}}function closeVideo(){if(!modal||!vid) return;try{vid.pause();}catch(e){}modal.classList.remove('open');}if(play){play.addEventListener('click',function(e){e.preventDefault();openVideo();});}if(closeBtn){closeBtn.addEventListener('click',function(e){e.preventDefault();closeVideo();});}if(modal){modal.addEventListener('click',function(e){if(e.target===modal){closeVideo();}});document.addEventListener('keydown',function(e){if(e.key==='Escape') closeVideo();});} })();
+</script>
+</body>
+</html>

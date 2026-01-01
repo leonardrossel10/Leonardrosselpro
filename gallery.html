@@ -1,0 +1,62 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Portfolio</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <style>
+    body{font-family:system-ui;padding:20px;padding-top:130px;padding-bottom:64px;max-width:1100px;margin:auto}
+    h1{font-size:48px;margin-bottom:12px}
+    .section-label{font-size:24px;color:#222;margin-bottom:14px;text-transform:uppercase;letter-spacing:0.08em;font-weight:800}
+    p.lead{font-size:18px;color:#444;margin-top:0.2rem;margin-bottom:1rem;line-height:1.4}
+    .top-banner{position:fixed;left:0;right:0;top:0;height:110px;background:linear-gradient(90deg,#062047,#043059);z-index:1000;box-shadow:0 2px 6px rgba(0,0,0,0.25);display:flex;align-items:center;padding-left:22px}
+    .top-logo{height:72px;display:block}
+    .hero{padding:12px 0 18px}
+    .top-hero{display:flex;justify-content:center;gap:0;margin:0 auto 48px;max-width:1400px;position:relative;overflow:hidden}
+    .top-hero img{width:50%;height:auto;object-fit:cover;border-radius:0;display:block;transition:transform 700ms ease}
+    .top-hero.combined img{width:100%;height:auto;object-fit:cover;border-radius:0;display:block}
+    .top-hero img + img{margin-left:0}
+    .top-hero-caption{position:absolute;left:0;right:0;bottom:0;background:rgba(0,0,0,0.45);color:#fff;padding:12px 0;text-align:center;font-weight:800;font-size:28px;letter-spacing:0.02em;box-sizing:border-box}
+    .play-button{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:84px;height:84px;border-radius:50%;background:rgba(0,0,0,0.55);border:2px solid rgba(255,255,255,0.9);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:20;transition:transform 220ms ease,box-shadow 220ms ease} .play-button:after{content:"";display:block;margin-left:6px;border-style:solid;border-width:12px 0 12px 20px;border-color:transparent transparent transparent #fff} .play-button:hover{transform:translate(-50%,-50%) scale(1.04);box-shadow:0 8px 20px rgba(6,32,71,0.18)}
+    .groups{display:grid;grid-template-columns:repeat(2,1fr);gap:36px}
+    .group{text-align:center;padding:6px}
+    .group img{width:100%;height:380px;object-fit:cover;border-radius:8px;transition:transform 320ms cubic-bezier(.2,.8,.2,1),box-shadow 320ms ease}
+    .group:hover img{transform:scale(1.04);box-shadow:0 12px 30px rgba(6,32,71,0.12)}
+    .animate-on-scroll{opacity:0;transform:translateY(18px);transition:opacity 600ms ease,transform 600ms ease}
+    .animate-on-scroll.visible{opacity:1;transform:none}
+    @keyframes pulse{0%{transform:scale(1)}50%{transform:scale(1.06)}100%{transform:scale(1)}}
+    .play-button{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:84px;height:84px;border-radius:50%;background:rgba(0,0,0,0.55);border:2px solid rgba(255,255,255,0.9);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:20} .play-button:after{content:"";display:block;margin-left:6px;border-style:solid;border-width:12px 0 12px 20px;border-color:transparent transparent transparent #fff}
+    .video-modal{position:fixed;left:0;top:0;right:0;bottom:0;background:rgba(0,0,0,0.75);display:none;align-items:center;justify-content:center;z-index:2000} .video-modal.open{display:flex} .video-wrap{position:relative;max-width:92%;max-height:92%} .video-wrap video{width:100%;height:auto;border-radius:6px;background:#000} .video-close{position:absolute;right:-10px;top:-10px;background:#fff;color:#000;border:none;border-radius:50%;width:36px;height:36px;font-size:18px;cursor:pointer}
+    .groups{display:grid;grid-template-columns:repeat(2,1fr);gap:36px}
+    .group{text-align:center;padding:6px}
+    .group img{width:100%;height:380px;object-fit:cover;border-radius:8px}
+    .group .title{margin-top:10px;font-size:18px;font-weight:700;color:#222}
+    .group a{color:inherit;text-decoration:none}
+    @media(max-width:900px){.groups{grid-template-columns:1fr}.top-hero{flex-direction:column;align-items:center}.top-hero img{width:100%;height:auto;margin-left:0}}
+    @media(max-width:600px){.top-logo{height:48px;padding-left:12px}}
+    .bottom-bar{position:fixed;left:0;right:0;bottom:0;height:48px;background:linear-gradient(90deg,#062047,#043059);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:600;z-index:1000;transform:translateY(100%);transition:transform 220ms ease-in-out} .bottom-bar.visible{transform:translateY(0)} .bottom-bar a{color:#fff;text-decoration:none;margin:0 8px}
+    .section{margin-bottom:140px}
+  </style>
+</head>
+<body>
+<div class="top-banner"><img class="top-logo" src="logo_white.png?v=1767280404" alt="LR"></div>
+<section class="section profile-section"><div class="top-hero animate-on-scroll"><img src="images/profil/IMG_5545.JPG" alt=""><img src="images/profil/IMG_5548.JPG" alt=""><div class="top-hero-caption">Léonard Rossel</div><button class="play-button" data-video="images/profil/videos/Find Yourself.mov" aria-label="Play video"></button></div>
+<div class="video-modal" id="video-modal"><div class="video-wrap"><video id="profile-video" controls playsinline preload="metadata"><source src="images/profil/videos/Find Yourself.mov" />Your browser does not support the video tag.</video><button class="video-close" aria-label="Close video">×</button></div></div></section>
+<section class="section introspection-section"><div class="section-label">Introspection</div><div class="hero">  <p class="lead">Je m’appelle Léonard Rossel, j’ai 19 ans. Je suis en 3ᵉ année au CPNV en polymécanique et le sport fait partie de mon quotidien.</p>
+  <p class="lead">La photo et la vidéo me passionnent depuis longtemps. J’ai toujours eu envie de raconter et de créer des histoires à travers elles. Je ne me suis simplement jamais lancé.</p>
+  <p class="lead">Aujourd’hui, je prends ce rêve en main pour créer et transmettre. Je veux vous permettre de raconter votre histoire à travers la photo ou la vidéo.</p>
+</div></section>
+<div class="bottom-bar"><span style="margin-right:8px">Mon Insta:</span><a href="https://instagram.com/leonard_rossel" target="_blank">@leonard_rossel</a><span style="margin:0 12px">·</span><span style="margin-right:8px">Mon mail:</span><a href="mailto:leonardrosselpro@gmail.com">leonardrosselpro@gmail.com</a></div>
+<script>
+(function(){var bar=document.querySelector('.bottom-bar');function check(){if(!bar) return; if((window.innerHeight+window.scrollY)>=document.documentElement.scrollHeight-2){bar.classList.add('visible');}else{bar.classList.remove('visible');}}window.addEventListener('scroll',check,{passive:true});window.addEventListener('resize',check);document.addEventListener('DOMContentLoaded',check);check();})();
+</script>
+<script>
+(function(){var play=document.querySelector('.play-button');var modal=document.getElementById('video-modal');var vid=modal?modal.querySelector('#profile-video'):null;var closeBtn=modal?modal.querySelector('.video-close'):null;function openVideo(){if(!modal||!vid) return;modal.classList.add('open');try{vid.currentTime=0;vid.play();}catch(e){}}function closeVideo(){if(!modal||!vid) return;try{vid.pause();}catch(e){}modal.classList.remove('open');}if(play){play.addEventListener('click',function(e){e.preventDefault();openVideo();});}if(closeBtn){closeBtn.addEventListener('click',function(e){e.preventDefault();closeVideo();});}if(modal){modal.addEventListener('click',function(e){if(e.target===modal){closeVideo();}});document.addEventListener('keydown',function(e){if(e.key==='Escape') closeVideo();});} })();
+</script>
+<section class="section gallery-section"><div class="section-label">Portfolio</div>
+<div class="groups"><div class="group animate-on-scroll"><a href="gallery_sport.html"><img src="images/miniature_sport/DSC01371.jpg" alt="Sport"><div>Sport</div></a></div><div class="group animate-on-scroll"><a href="gallery_portrait.html"><img src="images/miniature_portrait/DSC00941.jpg" alt="Portrait"><div>Portrait</div></a></div><div class="group animate-on-scroll"><a href="gallery_paysage.html"><img src="images/miniature_paysage/DSC01329.jpg" alt="Paysage"><div>Paysage</div></a></div><div class="group animate-on-scroll"><a href="gallery_voiture.html"><img src="images/miniature_voiture/DSC00946.jpg" alt="Voiture"><div>Voiture</div></a></div></div>
+<script>
+(function(){var io=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target);}});},{threshold:0.12});document.querySelectorAll('.animate-on-scroll').forEach(function(el){io.observe(el)});var topHero=document.querySelector('.top-hero');if(topHero){var imgs=topHero.querySelectorAll("img");window.addEventListener('scroll',function(){var rect=topHero.getBoundingClientRect();var h=window.innerHeight;var pct=1-Math.max(0,Math.min(1,(rect.top+h)/(h+rect.height)));imgs.forEach(function(img,i){var offset=(pct-0.5)*(i%2?6:-6);img.style.transform='translateY('+offset+'px)';});},{passive:true});} })();
+</script>
+</body>
+</html>

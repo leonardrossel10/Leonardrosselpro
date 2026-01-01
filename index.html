@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MonSitePhotos — sauvegarde redimensionnée (800px)</title>
+<style>
+body{font-family:system-ui,Arial;margin:18px;background:#071426;color:#e6eef8}
+.controls{display:flex;gap:12px;align-items:center}
+.btn{background:#ff7a59;color:#fff;padding:.4rem .8rem;border-radius:6px;border:0;cursor:pointer}
+.gallery{display:flex;flex-wrap:wrap;gap:12px;margin-top:12px}
+.card{width:240px;border-radius:8px;overflow:hidden;background:#001122;box-shadow:0 6px 18px rgba(0,0,0,.4)}
+.thumb{width:100%;height:150px;object-fit:cover;display:block}
+.meta{padding:8px}
+.title{font-weight:600;margin:0 0 6px 0}
+.desc{margin:0;color:#bcd0e6;font-size:0.9rem}
+.actions{display:flex;gap:8px;padding:8px;border-top:1px solid rgba(255,255,255,0.03);background:rgba(0,0,0,0.02)}
+.small-btn{background:rgba(255,255,255,0.04);color:var(--text);border:0;padding:6px 8px;border-radius:6px;cursor:pointer}
+.remove{margin-left:auto;background:rgba(255,0,0,0.12);color:#fff}
+.info{margin-top:12px;background:#0b1220;padding:10px;border-radius:8px;white-space:pre-wrap}
+</style>
+</head>
+<body>
+<h2>MonSitePhotos — sauvegarde redimensionnée (800px)</h2>
+<p class="info" id="info">Info : les images seront redimensionnées avant sauvegarde. Taille max : 800px, qualité JPEG 0.6.</p>
+
+<div class="controls">
+  <label class="btn" style="cursor:pointer">
+    <input id="fileInput" type="file" accept="image/*" multiple style="display:none">
+    Ajouter des photos
+  </label>
+  <button id="clearBtn" class="btn">Vider la galerie</button>
+  <button id="seedBtn" class="btn">Préremplir (seed)</button>
+</div>
+
+<div class="gallery" id="gallery"></div>
+
+<script>
+const KEY = 'myPhotosV2';
+const MAX_DIM = 800; // px
+const JPEG_QUALITY = 0.6;
+
+const input = document.getElementById('fileInput');
+const gallery = document.getElementById('gallery');
+const clearBtn = document.getElementById('clearBtn');
+const info = document.getElementById('info');
+
+let images = []; // {dataUrl, title, desc}
+
+function load(){
+  try{ images = JSON.parse(localStorage.getItem(KEY) || '[]'); }catch(e){ images = []; }
+  render();
+  info.textContent = 'Info : prêt. ' + images.length + ' images chargées depuis localStorage.';
+}
+
+function save(){
+  try{
+    localStorage.setItem(KEY, JSON.stringify(images));
+    info.textContent = 'Sauvegarde OK — ' + images.length + ' images stockées.';
+    return true;
+  }catch(e){
+    console.error(e);
+    alert('Impossible de sauvegarder : limite de stockage atteinte. Essayez moins d\'images ou stockage en ligne.');
+    info.textContent = 'Erreur sauvegarde : limite atteinte.';
+    return false;
+  }
+}
+
+function render(){
+  gallery.innerHTML = '';
+  images.forEach((item, idx) => {
+    const card = document.createElement('div');
+    card.className = 'card';
+    const img = document.createElement('img');
+    img.className = 'thumb';
+    img.src = item.dataUrl;
+    img.alt = item.title || 'photo';
+    const meta = document.createElement('div');
+    meta.className = 'meta';
+    const title = document.createElement('p');
+    title.className = 'title';
+    title.innerText = item.title || 'Sans titre';
+    const desc = document.createElement('p');
+    desc.className = 'desc';
+    desc.innerText = item.desc || '';
+    meta.appendChild(title);
+    meta.appendChild(desc);
+    const actions = document.createElement('div');
+    actions.className = 'actions';
+    const editBtn = document.createElement('button');
+    editBtn.className = 'small-btn';
+    editBtn.innerText = 'Edit';
+    editBtn.addEventListener('click', ()=> editMeta(idx));
+    const removeBtn = document.createElement('button');
+    removeBtn.className = 'small-btn remove';
+    removeBtn.innerText = 'Supprimer';
+    removeBtn.addEventListener('click', ()=> { if(confirm('Supprimer cette photo ?')){ images.splice(idx,1); save(); render(); } });
+    actions.appendChild(editBtn);
+    actions.appendChild(removeBtn);
+    card.appendChild(img);
+    card.appendChild(meta);
+    card.appendChild(actions);
+    gallery.appendChild(card);
+  });
+}
+
+function editMeta(index){
+  const item = images[index];
+  const newTitle = prompt('Titre de la photo :', item.title || '');
+  if(newTitle === null) return;
+  const newDesc = prompt('Description :', item.desc || '');
+  if(newDesc === null) return;
+  item.title = newTitle.trim();
+  item.desc = newDesc.trim();
+  if(save()) render();
+}
+
+function dataURLFromFile(file, maxDim=MAX_DIM, quality=JPEG_QUALITY){
+  return new Promise((res, rej)=>{
+    const reader = new FileReader();
+    reader.onerror = ()=> rej('FileReader error');
+    reader.onload = ()=>{
+      const img = new Image();
+      img.onload = ()=>{
+        let w = img.width, h = img.height;
+        if(w>maxDim || h>maxDim){
+          const ratio = w/h;
+          if(w>h){ w = maxDim; h = Math.round(maxDim / ratio); }
+          else{ h = maxDim; w = Math.round(maxDim * ratio); }
+        }
+        const canvas = document.createElement('canvas');
+        canvas.width = w;
+        canvas.height = h;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img,0,0,w,h);
+        try{
+          const dataUrl = canvas.toDataURL('image/jpeg', quality);
+          res(dataUrl);
+        }catch(e){
+          rej(e);
+        }
+      };
+      img.onerror = ()=> rej('Image load error');
+      img.src = reader.result;
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+input.addEventListener('change', async (e)=>{
+  const files = Array.from(e.target.files || []);
+  if(files.length === 0) return;
+  info.textContent = 'Traitement ' + files.length + ' fichier(s)...';
+  for(const f of files){
+    try{
+      const dataUrl = await dataURLFromFile(f);
+      images.push({dataUrl, title: '', desc: ''});
+      if(!save()){
+        images.pop();
+        break;
+      }
+    }catch(err){
+      console.error('Erreur traitement', f.name, err);
+      alert('Erreur lors du traitement de ' + f.name);
+    }
+  }
+  render();
+  input.value = '';
+});
+
+clearBtn.addEventListener('click', ()=> {
+  if(confirm('Vider la galerie et supprimer les images sauvegardées ?')){
+    images = [];
+    localStorage.removeItem(KEY);
+    render();
+    info.textContent = 'Galerie vidée.';
+  }
+});
+
+window.addEventListener('DOMContentLoaded', load);
+  
+// bouton pour préremplir le localStorage depuis localstorage_seed.json (outil de test)
+document.addEventListener('DOMContentLoaded', function(){
+  var seedBtn = document.getElementById('seedBtn');
+  if(!seedBtn) return;
+  seedBtn.addEventListener('click', function(){
+    fetch('localstorage_seed.json').then(function(res){
+      if(!res.ok) throw new Error('seed non trouvé');
+      return res.json();
+    }).then(function(data){
+      try{ localStorage.setItem(KEY, JSON.stringify(data)); load(); alert('LocalStorage prérempli ('+data.length+' images)'); }
+      catch(e){ alert('Impossible d\'écrire localStorage: '+e.message); }
+    }).catch(function(err){ alert('Erreur seed: '+err.message); });
+  });
+});
+</script>
+</body>
+</html>
